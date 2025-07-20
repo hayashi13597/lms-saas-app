@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/select";
 import { subjects } from "@/constants";
 import { Textarea } from "@/components/ui/textarea";
+import { createCompanion } from "@/lib/actions/companion.actions";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Companion is required." }),
@@ -48,11 +50,14 @@ const CompanionForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Form submitted with values:", values);
-    // Here you would typically handle the form submission, e.g., send the data to an API
-    // For example:
-    // await api.createCompanion(values);
-    // Then you might want to redirect or show a success message
+    const companion = await createCompanion(values);
+
+    if (companion) {
+      redirect(`/companions/${companion.id}`);
+    } else {
+      console.error("Failed to create a companion");
+      redirect("/");
+    }
   };
 
   return (
@@ -188,6 +193,10 @@ const CompanionForm = () => {
                   placeholder="15"
                   {...field}
                   className="input"
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value, 10);
+                    field.onChange(isNaN(value) ? 15 : value);
+                  }}
                 />
               </FormControl>
               <FormMessage />
