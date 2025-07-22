@@ -1,5 +1,10 @@
+"use client";
+import { removeBookmark } from "@/lib/actions/companion.actions";
+import { addBookmark } from "@/lib/actions/companion.actions";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useTransition } from "react";
 
 interface CompanionCardProps {
   id: string;
@@ -8,6 +13,7 @@ interface CompanionCardProps {
   subject: string;
   duration: number;
   color: string;
+  bookmarked: boolean;
 }
 
 const CompanionCard = ({
@@ -17,14 +23,43 @@ const CompanionCard = ({
   subject,
   duration,
   color,
+  bookmarked,
 }: CompanionCardProps) => {
+  const pathname = usePathname();
+  const [isBookmarked, setIsBookmarked] = useState(bookmarked);
+  const [isPending, startTransition] = useTransition();
+
+  const handleBookmark = async () => {
+    // Optimistic update
+    setIsBookmarked(!isBookmarked);
+    
+    startTransition(async () => {
+      try {
+        if (isBookmarked) {
+          await removeBookmark(id, pathname);
+        } else {
+          await addBookmark(id, pathname);
+        }
+      } catch (error) {
+        // Revert optimistic update on error
+        setIsBookmarked(isBookmarked);
+        console.error('Failed to update bookmark:', error);
+      }
+    });
+  };
   return (
     <article className="companion-card" style={{ backgroundColor: color }}>
       <div className="flex justify-between items-center">
         <div className="subject-badge">{subject}</div>
-        <button className="companion-bookmark">
+        <button 
+          className={`companion-bookmark ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={handleBookmark}
+          disabled={isPending}
+        >
           <Image
-            src="/icons/bookmark.svg"
+            src={
+              isBookmarked ? "/icons/bookmark-filled.svg" : "/icons/bookmark.svg"
+            }
             alt="bookmark"
             width={12.5}
             height={15}
