@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Converso - AI Teaching Platform
 
-## Getting Started
+A real-time AI-powered learning platform that creates personalized educational companions for interactive voice-based learning sessions.
+> Build custom AI tutors with different voices, teaching styles, and subjects to enhance your learning experience through natural conversations.
 
-First, run the development server:
+## Features
+
+- **AI Learning Companions** - Create personalized AI tutors for various subjects
+- **Real-time Voice Conversations** - Interactive voice sessions with AI companions using Vapi
+- **Multi-subject Support** - Math, Science, Language, History, Coding, Economics, and more
+- **User Authentication** - Secure login with Clerk (Google OAuth support)
+- **Companion Management** - Create, bookmark, and organize learning companions
+- **Session Tracking** - Track learning progress and session history
+- **Subscription Plans** - Tiered access with companion limits and premium features
+- **Responsive Design** - Mobile-friendly interface with Tailwind CSS
+- **Voice Customization** - Choose between male/female voices with casual/formal styles
+
+## Tech Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS, Radix UI components
+- **Authentication**: Clerk
+- **Database**: Supabase (PostgreSQL)
+- **Voice AI**: Vapi.ai (real-time voice conversations)
+- **Form Handling**: React Hook Form with Zod validation
+- **Animations**: Lottie React
+- **Monitoring**: Sentry
+- **Deployment**: Vercel-ready
+
+## Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/hayashi13597/lms-saas-app.git
+cd lms-saas-app
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Fill in your API keys and configuration
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file with the following variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
 
-## Learn More
+# Supabase Database
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-To learn more about Next.js, take a look at the following resources:
+# Vapi Voice AI
+NEXT_PUBLIC_VAPI_WEB_TOKEN=your_vapi_token
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Sentry Monitoring
+SENTRY_AUTH_TOKEN=your_sentry_token
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+├── app/                    # Next.js app router pages
+│   ├── companions/         # Companion library and sessions
+│   ├── my-journey/         # User dashboard and progress
+│   └── subscription/       # Pricing and plans
+├── components/             # Reusable UI components
+├── lib/                    # Utilities and database actions
+├── types/                  # TypeScript type definitions
+├── constants/              # App constants and configuration
+└── public/                 # Static assets
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Demo
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Live Demo](https://lms-saas-app-six.vercel.app/)
+
+## Key Features Explained
+
+- **Companion Builder**: Create AI tutors with custom names, subjects, topics, voices, and teaching styles
+- **Voice Sessions**: Real-time conversations with AI using speech-to-text and text-to-speech
+- **Progress Tracking**: Monitor learning sessions and companion usage
+- **Bookmarking**: Save favorite companions for quick access
+- **Search & Filter**: Find companions by subject, topic, or keywords
+
+
+## License
+
+This project is licensed under the MIT License.
